@@ -1,0 +1,506 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #6c5ce7;
+    --secondary-color: #fd79a8;
+    --background-color: #f0f3f7;
+    --text-color: #2d3436;
+    --correct-color: #00b894;
+    --wrong-color: #d63031;
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1, h2, h3, button {
+    font-family: var(--heading-font);
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.1) 10px,
+        rgba(255, 255, 255, 0.1) 20px
+    );
+    animation: headerPattern 20s linear infinite;
+}
+
+@keyframes headerPattern {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50%, 50%); }
+}
+
+h1 {
+    font-size: 3.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: -0.5px;
+}
+
+main {
+    flex: 1;
+    width: 800px; /* Fix cng chiều rộng */
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: var(--card-shadow);
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+main:hover {
+    transform: translateY(-5px);
+}
+
+.question {
+    margin-bottom: 2rem;
+}
+
+.question h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    letter-spacing: -0.3px;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.option {
+    background-color: #e0e0e0;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px; /* Tăng chiều cao tối thiểu để cân đối hơn */
+    font-family: var(--body-font);
+    font-size: 1.1rem;
+    font-weight: 400;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.option:hover {
+    background-color: var(--secondary-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.selected {
+    background-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 15px rgba(108, 92, 231, 0.3);
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+#timer {
+    font-family: var(--heading-font);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+}
+
+#timer::before {
+    content: '⏳';
+    margin-right: 0.5rem;
+    font-size: 1.4rem;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1, 1) translate(-50%);
+    transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    20% {
+        transform: scale(25, 25);
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+button:focus:not(:active)::after {
+    animation: ripple 1s ease-out;
+}
+
+button:hover {
+    background-color: #5a4ad1;
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(108, 92, 231, 0.4);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    background-color: #b2bec3;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+#result {
+    text-align: center;
+    font-family: var(--heading-font);
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    padding: 2rem;
+    background-color: #dfe6e9;
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+}
+
+#ai-feedback {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-color);
+    box-shadow: var(--card-shadow);
+}
+
+#ai-feedback h3 {
+    font-family: var(--heading-font);
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+#ai-feedback p {
+    font-family: var(--body-font);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: var(--primary-color);
+    color: white;
+    margin-top: auto;
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 1.5rem;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .question h2 {
+        font-size: 1.5rem;
+    }
+
+    .option {
+        font-size: 1rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question, #result {
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+#timer {
+    animation: pulse 2s infinite;
+}
+
+.correct {
+    background-color: var(--correct-color) !important;
+    color: white;
+}
+
+.wrong {
+    background-color: var(--wrong-color) !important;
+    color: white;
+}
+
+@keyframes loading {
+    0% { content: "Đang phân tích"; }
+    33% { content: "Đang phân tích."; }
+    66% { content: "Đang phân tích.."; }
+    100% { content: "Đang phân tích..."; }
+}
+
+#ai-feedback:empty::before {
+    content: "Đang phân tích";
+    animation: loading 1.5s infinite;
+    display: block;
+    text-align: center;
+    font-style: italic;
+    color: var(--primary-color);
+}
+
+/* Thêm hiệu ứng hover 3D cho các tùy chọn */
+.option {
+    transition: transform 0.3s;
+    transform-style: preserve-3d;
+}
+
+.option:hover {
+    transform: rotateX(10deg) rotateY(10deg);
+}
+
+/* Thêm hiệu ứng gradient động cho header */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+header {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+/* Thêm hiệu ứng nổi cho main container */
+main {
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+main:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+/* Thêm hiệu ứng loading cho AI feedback */
+@keyframes shimmer {
+    0% {
+        background-position: -468px 0;
+    }
+    100% {
+        background-position: 468px 0;
+    }
+}
+
+#ai-feedback:empty {
+    height: 100px;
+    background: #f6f7f8;
+    background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 104px;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: shimmer;
+    animation-timing-function: linear;
+}
+
+/* Thêm hiệu ứng chữ nổi cho tiêu đề */
+@keyframes textShadowPulse {
+    0% {
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 16px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0 0 4px rgba(255, 255, 255, 0.5);
+    }
+}
+
+h1 {
+    animation: textShadowPulse 3s infinite;
+}
+
+/* Thêm hiệu ứng chữ gradient cho tiêu đề câu hỏi */
+.question h2 {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: gradientText 5s ease infinite;
+}
+
+@keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@media (max-width: 850px) {
+    main {
+        width: 95%; /* Đảm bảo responsive trên màn hình nhỏ */
+        padding: 1.5rem;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .question h2 {
+        font-size: 1.5rem;
+    }
+
+    .option {
+        font-size: 1rem;
+    }
+}
+
+.question-info {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.loading-progress {
+    width: 0;
+    height: 100%;
+    background-color: var(--primary-color);
+    transition: width 0.5s ease;
+}
+
+.loading-text {
+    text-align: center;
+    font-style: italic;
+    color: var(--primary-color);
+}
+
+.ai-analysis, .improvement-suggestions, .detailed-feedback {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.feedback-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
