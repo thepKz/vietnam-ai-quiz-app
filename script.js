@@ -6,7 +6,7 @@ const quizData = [
         explanation: "Hà Nội là thủ đô của Việt Nam từ năm 1010 dưới triều đại Lý."
     },
     {
-        question: "Năm nào Việt Nam giành độc lập?",
+        question: "Năm nào Việt Nam tuyên bố độc lập?",
         options: ["1945", "1954", "1975", "1986"],
         correctAnswer: "1945",
         explanation: "Việt Nam tuyên bố độc lập vào ngày 2 tháng 9 năm 1945."
